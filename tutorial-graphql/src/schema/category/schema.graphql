@@ -1,0 +1,10 @@
+# @format
+
+type Category {
+  id: Int!
+  name: String!
+}
+
+type Query {
+  helloCategory: String
+}

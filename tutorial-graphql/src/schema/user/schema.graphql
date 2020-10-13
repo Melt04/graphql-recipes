@@ -1,0 +1,20 @@
+# @format
+type Query {
+  helloWorld(name: String): String!
+}
+
+type Mutation {
+  createUser(inputOptions: inputUserCreate): User!
+}
+
+input inputUserCreate {
+  name: String!
+  email: String!
+  password: String!
+}
+type User {
+  id: String!
+  name: String!
+  email: String!
+  pasword: String!
+}

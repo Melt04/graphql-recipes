@@ -1,0 +1,17 @@
+# @format
+
+type Recipie {
+  id: String!
+  name: String!
+  email: String!
+  ingredients: String!
+  category: Int!
+}
+
+type Query {
+  helloRecipe: String
+}
+
+type Mutation {
+  createHello(id: Int): Int
+}
