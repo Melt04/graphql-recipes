@@ -19,7 +19,6 @@
     "typeorm": "0.2.28"
   },
   "scripts": {
-    "start": "nodemon --ignore 'mySchema.d.ts' --exec ts-node src/index.ts",
-    "types-graphql": "gql2ts src/schema/user/schema.graphql -o graphql.d.ts"
+    "start": "nodemon --ignore 'mySchema.d.ts' --exec ts-node src/index.ts"
   }
 }

@@ -1,16 +1,16 @@
 /** @format */
 
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm'
 
 @Entity()
-export class Category {
+export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number
 
   @Column()
   name: string
 
-  @Column()
+  @Column({ unique: true })
   email: string
 
   @Column()

@@ -1,10 +1,17 @@
 # @format
 type Query {
-  helloWorld(name: String): String!
+  getAllUsers: [User!]
 }
 
 type Mutation {
-  createUser(inputOptions: inputUserCreate): User!
+  signup(input: inputUserCreate!): User!
+}
+input Token {
+  token: String!
+}
+input loginInput {
+  email: String!
+  password: String!
 }
 
 input inputUserCreate {
@@ -16,5 +23,4 @@ type User {
   id: String!
   name: String!
   email: String!
-  pasword: String!
 }

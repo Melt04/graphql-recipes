@@ -23,13 +23,3 @@ export default function formatSchema(dirPath: string) {
 
   return schemas
 }
-/* fs.readdir(dirPath, (error, schemaDir: string[]) => {
-    schemaDir.forEach((dir) => {
-      const schemaPath = path.join(dirPath, dir, '/schema.graphql')
-      schemas.push(
-        makeExecutableSchema({ typeDefs: fs.readFileSync(schemaPath, 'utf8') })
-      )
-    })
-  })
-
-  return schemas */

@@ -22,13 +22,49 @@ column: number;
 
 interface IQuery {
 __typename: "Query";
-helloCategory: string | null;
-helloRecipe: string | null;
-helloWorld: string;
+getCategories: Array<ICategory> | null;
+getOneCategory: ICategory | null;
+getRecipes: Array<IRecipe> | null;
+getOneRecipe: IRecipe | null;
+getAllUsers: Array<IUser> | null;
 }
 
-interface IHelloWorldOnQueryArguments {
-name?: string | null;
+interface IGetOneCategoryOnQueryArguments {
+id?: number | null;
+}
+
+interface IGetOneRecipeOnQueryArguments {
+id?: number | null;
+}
+
+interface IMutation {
+__typename: "Mutation";
+createCategory: ICategory;
+createRecipe: IRecipe | null;
+deleteRecipe: boolean;
+updateRecipe: IRecipe | null;
+signup: IUser;
+}
+
+interface ICreateCategoryOnMutationArguments {
+input?: IInputCreateCategory | null;
+}
+
+interface ICreateRecipeOnMutationArguments {
+input?: IInputCreateRecipe | null;
+}
+
+interface IDeleteRecipeOnMutationArguments {
+id?: number | null;
+}
+
+interface IUpdateRecipeOnMutationArguments {
+id?: number | null;
+input?: IInputCreateRecipe | null;
+}
+
+interface ISignupOnMutationArguments {
+input: IInputUserCreate;
 }
 
 interface ICategory {
@@ -37,27 +73,33 @@ id: number;
 name: string;
 }
 
-interface IMutation {
-__typename: "Mutation";
-createHello: number | null;
-createUser: IUser;
+interface IInputCreateCategory {
+name: string;
 }
 
-interface ICreateHelloOnMutationArguments {
-id?: number | null;
-}
-
-interface ICreateUserOnMutationArguments {
-inputOptions?: IInputUserCreate | null;
-}
-
-interface IRecipie {
-__typename: "Recipie";
+interface IRecipe {
+__typename: "Recipe";
 id: string;
 name: string;
-email: string;
+description: string;
 ingredients: string;
 category: number;
+}
+
+interface IInputCreateRecipe {
+name: string;
+description: string;
+ingredients: string;
+category: number;
+}
+
+interface IToken {
+token: string;
+}
+
+interface ILoginInput {
+email: string;
+password: string;
 }
 
 interface IInputUserCreate {
@@ -71,7 +113,6 @@ __typename: "User";
 id: string;
 name: string;
 email: string;
-pasword: string;
 }
 }
 

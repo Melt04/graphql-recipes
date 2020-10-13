@@ -1,17 +1,26 @@
 # @format
 
-type Recipie {
+type Recipe {
   id: String!
   name: String!
-  email: String!
+  description: String!
   ingredients: String!
   category: Int!
 }
 
 type Query {
-  helloRecipe: String
+  getRecipes: [Recipe!]
+  getOneRecipe(id: Int): Recipe
 }
 
 type Mutation {
-  createHello(id: Int): Int
+  createRecipe(input: inputCreateRecipe): Recipe
+  deleteRecipe(id: Int): Boolean!
+  updateRecipe(id: Int, input: inputCreateRecipe): Recipe
+}
+input inputCreateRecipe {
+  name: String!
+  description: String!
+  ingredients: String!
+  category: Int!
 }

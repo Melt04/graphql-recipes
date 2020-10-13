@@ -1,9 +1,9 @@
 /** @format */
 
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm'
 
 @Entity()
-export class Recipe {
+export class Recipe extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number
 
