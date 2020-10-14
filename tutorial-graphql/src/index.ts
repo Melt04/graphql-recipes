@@ -2,31 +2,26 @@
 import 'reflect-metadata'
 import { createConnection } from 'typeorm'
 import express from 'express'
-import { generateNamespace } from '@gql2ts/from-schema'
-import * as fs from 'fs'
-
+import { verifiToken } from './utils/context'
+import { Context } from './utils/context/context'
 import { ApolloServer } from 'apollo-server-express'
-import schema from './schema'
+import typeDefs from './schema/typedef/index'
+import resolvers from './schema/resolvers/index'
+
 import * as dotenv from 'dotenv'
 
-dotenv.config({ path: __dirname + '/.env' })
-
-const myNamespace = generateNamespace('MyGraphQL', schema)
-
-fs.writeFile('mySchema.d.ts', myNamespace, (error) => {})
+dotenv.config()
 
 const app: express.Application = express()
 
 const server: ApolloServer = new ApolloServer({
-  schema,
-  context: ({ req }) => ({
-    authScope: () => {
-      return 2
-    },
-  }),
-  formatError: (e) => {
-    console.log(e)
-    return e
+  typeDefs,
+  resolvers,
+  context: async ({ req }) => {
+    const contextObj: Context = { email: null }
+    const email = await verifiToken(req)
+    contextObj.email = email
+    return contextObj
   },
 
   playground: true,

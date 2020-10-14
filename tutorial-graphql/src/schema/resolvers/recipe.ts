@@ -1,9 +1,10 @@
 /** @format */
 
 import { IResolvers } from 'graphql-tools'
+import { Category } from '../../database/entity/Category'
 import { Recipe } from '../../database/entity/Recipe'
 
-const resolvers: IResolvers = {
+export const recipeResolver: IResolvers = {
   Query: {
     getRecipes: (): Promise<Recipe[]> => {
       return Recipe.find()
@@ -17,13 +18,8 @@ const resolvers: IResolvers = {
     },
   },
   Mutation: {
-    createRecipe: async (
-      _: any,
-      { input }: MyGraphQL.ICreateRecipeOnMutationArguments
-    ) => {
-      const { category, name, description, ingredients } = <
-        MyGraphQL.IInputCreateRecipe
-      >input
+    createRecipe: async (_: any, { input }: any) => {
+      const { category, name, description, ingredients } = input
       let recipe = new Recipe()
       recipe.category = category
       recipe.ingredients = ingredients
@@ -32,13 +28,8 @@ const resolvers: IResolvers = {
       await recipe.save()
       return recipe
     },
-    updateRecipe: async (
-      _: any,
-      { id, input }: MyGraphQL.IUpdateRecipeOnMutationArguments
-    ) => {
-      const { category, description, ingredients, name } = <
-        MyGraphQL.IInputCreateRecipe
-      >input
+    updateRecipe: async (_: any, { id, input }: any) => {
+      const { category, description, ingredients, name } = input
       const [updatedRecipe]: Recipe[] = await Recipe.find({ where: { id } })
       if (updatedRecipe) {
         updatedRecipe.category = category
@@ -64,4 +55,4 @@ const resolvers: IResolvers = {
   },
 }
 
-module.exports.resolvers = resolvers
+//module.exports.resolvers = resolvers

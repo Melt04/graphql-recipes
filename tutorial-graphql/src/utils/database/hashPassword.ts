@@ -1,9 +1,11 @@
 /** @format */
 
-import bcrypt from 'bcrypt'
+import bcrypt, { genSalt } from 'bcrypt'
 
-export function hashPassword(password: string): Promise<string> {
-  return bcrypt.hash(password, <string | number>process.env.SALT_ROUNDS)
+export async function hashPassword(password: string): Promise<string> {
+  let salt = parseInt(<string>process.env.SALT_ROUND)
+
+  return bcrypt.hash(password, <number | string>salt)
 }
 
 export function matchPassword(

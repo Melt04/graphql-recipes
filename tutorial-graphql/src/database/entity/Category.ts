@@ -1,6 +1,13 @@
 /** @format */
 
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm'
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BaseEntity,
+  OneToMany,
+} from 'typeorm'
+import { Recipe } from './Recipe'
 
 @Entity()
 export class Category extends BaseEntity {
@@ -9,4 +16,7 @@ export class Category extends BaseEntity {
 
   @Column()
   name: string
+
+  @OneToMany(() => Recipe, (recipe) => recipe.id)
+  recipe: Recipe[]
 }

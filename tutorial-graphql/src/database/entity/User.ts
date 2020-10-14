@@ -7,8 +7,10 @@ import {
   BaseEntity,
   BeforeInsert,
   CreateDateColumn,
+  OneToMany,
 } from 'typeorm'
 
+import { Recipe } from './Recipe'
 import { hashPassword } from '../../utils/database/hashPassword'
 @Entity()
 export class User extends BaseEntity {
@@ -26,6 +28,9 @@ export class User extends BaseEntity {
 
   @CreateDateColumn()
   createdDate: Date
+
+  @OneToMany(() => Recipe, (recipe) => recipe.user)
+  recipe: Recipe[]
 
   @BeforeInsert()
   async hashPassword(): Promise<void> {

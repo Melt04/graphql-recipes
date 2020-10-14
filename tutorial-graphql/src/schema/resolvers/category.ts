@@ -3,7 +3,7 @@
 import { IResolvers } from 'graphql-tools'
 import { Category } from '../../database/entity/Category'
 
-const resolvers: IResolvers = {
+export const categoryResolver: IResolvers = {
   Query: {
     getCategories: (): Promise<Category[] | null> => {
       return Category.find()
@@ -30,4 +30,4 @@ const resolvers: IResolvers = {
   },
 }
 
-module.exports.resolvers = resolvers
+// module.exports.resolvers = resolvers

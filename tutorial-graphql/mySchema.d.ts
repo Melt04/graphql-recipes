@@ -95,7 +95,7 @@ interface IInputCreateRecipe {
 name: string;
 description: string;
 ingredients: string;
-category: number;
+category?: number | null;
 }
 
 interface IToken {

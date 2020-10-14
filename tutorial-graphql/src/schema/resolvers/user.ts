@@ -4,15 +4,22 @@ import { IResolvers } from 'graphql-tools'
 import { User } from '../../database/entity/User'
 import { matchPassword } from '../../utils/database/hashPassword'
 import { AuthenticationError } from 'apollo-server-express'
+import { Context } from '../../utils/context/context'
 import jwt from 'jsonwebtoken'
+const { combineResolvers } = require('graphql-resolvers')
+import isAuthenticated from '../../middleware'
 
-const resolvers: IResolvers = {
+export const userResolver: IResolvers = {
   Query: {
-    getAllUsers: async (_: any, __: any, context: any): Promise<User[]> => {
-      let users: User[] = []
-      users = await User.find()
-      return users
-    },
+    getAllUsers: combineResolvers(
+      isAuthenticated,
+      async (_: any, __: any, context: Context): Promise<User[]> => {
+        let users: User[] = []
+        console.log(context.email)
+        users = await User.find()
+        return users
+      }
+    ),
   },
   Mutation: {
     login: async (_: any, { input }: MyGraphQL.ILoginOnMutationArguments) => {
@@ -52,4 +59,4 @@ const resolvers: IResolvers = {
   },
 }
 
-module.exports.resolvers = resolvers
+//module.exports.resolvers = resolvers
