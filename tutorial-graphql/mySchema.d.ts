@@ -44,6 +44,7 @@ createRecipe: IRecipe | null;
 deleteRecipe: boolean;
 updateRecipe: IRecipe | null;
 signup: IUser;
+login: IToken | null;
 }
 
 interface ICreateCategoryOnMutationArguments {
@@ -65,6 +66,10 @@ input?: IInputCreateRecipe | null;
 
 interface ISignupOnMutationArguments {
 input: IInputUserCreate;
+}
+
+interface ILoginOnMutationArguments {
+input: IInputLoginUser;
 }
 
 interface ICategory {
@@ -94,10 +99,11 @@ category: number;
 }
 
 interface IToken {
+__typename: "Token";
 token: string;
 }
 
-interface ILoginInput {
+interface IInputLoginUser {
 email: string;
 password: string;
 }

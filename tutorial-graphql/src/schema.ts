@@ -3,7 +3,7 @@
 import path from 'path'
 import { makeExecutableSchema, mergeSchemas } from 'graphql-tools'
 import { GraphQLSchema } from 'graphql'
-import formatSchema from './utils/formatSchema'
+import formatSchema from './utils/schema/formatSchema'
 const schemaUserFile = path.join(__dirname, './schema/user/schema.graphql')
 const schemaCategoryFile = path.join(
   __dirname,
