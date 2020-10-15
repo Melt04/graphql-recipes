@@ -12,6 +12,7 @@ import {
 
 import { Recipe } from './Recipe'
 import { hashPassword } from '../../utils/database/hashPassword'
+
 @Entity()
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
@@ -29,7 +30,7 @@ export class User extends BaseEntity {
   @CreateDateColumn()
   createdDate: Date
 
-  @OneToMany(() => Recipe, (recipe) => recipe.user)
+  @OneToMany(() => Recipe, (recipe) => recipe.id)
   recipe: Recipe[]
 
   @BeforeInsert()

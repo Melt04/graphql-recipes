@@ -7,7 +7,7 @@ export const userTypeDef = gql`
   }
 
   extend type Mutation {
-    signup(input: inputUserCreate!): User!
+    signup(input: inputUserCreate!): Boolean!
     login(input: inputLoginUser!): Token
   }
   type Token {

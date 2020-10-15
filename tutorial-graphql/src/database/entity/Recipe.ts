@@ -6,6 +6,7 @@ import {
   Column,
   BaseEntity,
   ManyToOne,
+  OneToMany,
 } from 'typeorm'
 import { Category } from './Category'
 import { User } from './User'
@@ -24,9 +25,11 @@ export class Recipe extends BaseEntity {
   @Column({ type: 'simple-array', nullable: false })
   ingredients: string[]
 
-  @ManyToOne(() => User, (user) => user.recipe)
-  user: User
+  @Column()
+  @ManyToOne(() => User, (user) => user.id)
+  userId: number
 
+  @Column()
   @ManyToOne(() => Category, (category) => category.id)
-  category: Category
+  category: number
 }

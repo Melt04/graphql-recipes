@@ -6,24 +6,40 @@ export const recipeTypeDef = gql`
     id: String!
     name: String!
     description: String!
-    ingredients: String!
-    category: Category!
+    ingredients: [String!]!
+    category: Category
+    User: User
   }
 
   extend type Query {
     getRecipes: [Recipe!]
-    getOneRecipe(id: Int): Recipe
+    getOneRecipe(field: AllowedFields, value: String!): [Recipe]
+    getMyRecipes: [Recipe!]
+  }
+
+  enum AllowedFields {
+    name
+    id
+    category
+    ingredients
   }
 
   extend type Mutation {
     createRecipe(input: inputCreateRecipe): Recipe
     deleteRecipe(id: Int): Boolean!
-    updateRecipe(id: Int, input: inputCreateRecipe): Recipe
+    updateRecipe(id: Int, input: inputUpdateRecipe): Boolean
+  }
+  input inputUpdateRecipe {
+    name: String
+    description: String
+    ingredients: [String]
+    category: Int
   }
   input inputCreateRecipe {
     name: String!
     description: String!
-    ingredients: String!
+    ingredients: [String]!
     category: Int
+    user: Int
   }
 `

@@ -15,9 +15,15 @@ export const userResolver: IResolvers = {
       isAuthenticated,
       async (_: any, __: any, context: Context): Promise<User[]> => {
         let users: User[] = []
-        console.log(context.email)
-        users = await User.find()
-        return users
+
+        try {
+          users = await User.find()
+
+          return users
+        } catch (e) {
+          console.log(e)
+          throw e
+        }
       }
     ),
   },
@@ -43,20 +49,24 @@ export const userResolver: IResolvers = {
     signup: async (
       _: any,
       { input }: MyGraphQL.ISignupOnMutationArguments
-    ): Promise<User> => {
+    ): Promise<boolean> => {
+      const { email, password, name } = <MyGraphQL.IInputUserCreate>input
+      const [userExist]: User[] = await User.find({ where: { email } })
+      if (userExist) {
+        throw new Error('Email alredy in use')
+      }
+
       const user = new User()
-      user.email = input.email
-      user.name = input.name
-      user.pasword = input.password
+      user.email = email
+      user.name = name
+      user.pasword = password
       try {
         await user.save()
+        return true
       } catch (e) {
         console.log(e)
         throw e
       }
-      return user
     },
   },
 }
-
-//module.exports.resolvers = resolvers

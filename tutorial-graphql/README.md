@@ -1,7 +1,10 @@
-# Awesome Project Build with TypeORM
+<!-- @format -->
 
-Steps to run this project:
+# Proyecto construido utilizando TypeOrm ,Typescript y Graphql
 
-1. Run `npm i` command
-2. Setup database settings inside `ormconfig.json` file
-3. Run `npm start` command
+Como correr el proyecto:
+
+1. Ejecutar `npm i` para instalar las dependencias
+2. Las configuraciones de la conexion a la base de datos se encuentran en el archivo ormconfig.json
+3. Ejecutar `npm start` para empezar el servidor.
+4. El servidor correr sobre el puerto 3000.El endpoint del playground de Graphql es http://localhost:3000/graphql

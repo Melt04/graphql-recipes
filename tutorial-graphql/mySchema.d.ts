@@ -1,125 +1,148 @@
-// tslint:disable
-// graphql typescript definitions
+/** @format */
 
 declare namespace MyGraphQL {
-interface IGraphQLResponseRoot {
-data?: IQuery | IMutation;
-errors?: Array<IGraphQLResponseError>;
-}
+  interface IGraphQLResponseRoot {
+    data?: IQuery | IMutation
+    errors?: Array<IGraphQLResponseError>
+  }
 
-interface IGraphQLResponseError {
-/** Required for all errors */
-message: string;
-locations?: Array<IGraphQLResponseErrorLocation>;
-/** 7.2.2 says 'GraphQL servers may provide additional entries to error' */
-[propName: string]: any;
-}
+  interface IGraphQLResponseError {
+    message: string
+    locations?: Array<IGraphQLResponseErrorLocation>
 
-interface IGraphQLResponseErrorLocation {
-line: number;
-column: number;
-}
+    [propName: string]: any
+  }
 
-interface IQuery {
-__typename: "Query";
-getCategories: Array<ICategory> | null;
-getOneCategory: ICategory | null;
-getRecipes: Array<IRecipe> | null;
-getOneRecipe: IRecipe | null;
-getAllUsers: Array<IUser> | null;
-}
+  interface IGraphQLResponseErrorLocation {
+    line: number
+    column: number
+  }
 
-interface IGetOneCategoryOnQueryArguments {
-id?: number | null;
-}
+  interface IQuery {
+    __typename: 'Query'
+    getCategories: Array<ICategory> | null
+    getOneCategory: ICategory | null
+    getRecipes: Array<IRecipe> | null
+    getOneRecipe: IRecipe | null
+    getAllUsers: Array<IUser> | null
+    getMyRecipes: Array<IRecipe> | null
+  }
 
-interface IGetOneRecipeOnQueryArguments {
-id?: number | null;
-}
+  interface IGetOneCategoryOnQueryArguments {
+    id?: number | null
+  }
 
-interface IMutation {
-__typename: "Mutation";
-createCategory: ICategory;
-createRecipe: IRecipe | null;
-deleteRecipe: boolean;
-updateRecipe: IRecipe | null;
-signup: IUser;
-login: IToken | null;
-}
+  interface IGetOneRecipeOnQueryArguments {
+    field: AllowedFields
+    value: string
+  }
 
-interface ICreateCategoryOnMutationArguments {
-input?: IInputCreateCategory | null;
-}
+  enum AllowedFields {
+    name,
+    id,
+    category,
+    ingredients,
+  }
 
-interface ICreateRecipeOnMutationArguments {
-input?: IInputCreateRecipe | null;
-}
+  interface IMutation {
+    __typename: 'Mutation'
+    createCategory: ICategory
+    createRecipe: IRecipe | null
+    deleteRecipe: boolean
+    updateRecipe: boolean | null
+    updateCategory: boolean
+    deleteCategory: boolean
+    signup: boolean
+    login: IToken | null
+  }
 
-interface IDeleteRecipeOnMutationArguments {
-id?: number | null;
-}
+  interface ICreateCategoryOnMutationArguments {
+    input?: IInputCreateCategory | null
+  }
+  interface IDeleteCategoryOnMutationArguments {
+    id: number
+  }
 
-interface IUpdateRecipeOnMutationArguments {
-id?: number | null;
-input?: IInputCreateRecipe | null;
-}
+  interface IUpdateCategoryOnMutationArguments {
+    input?: IInputCreateCategory | null
+    id: number
+  }
+  interface ICreateRecipeOnMutationArguments {
+    input?: IInputCreateRecipe | null
+  }
 
-interface ISignupOnMutationArguments {
-input: IInputUserCreate;
-}
+  interface IDeleteRecipeOnMutationArguments {
+    id?: number | null
+  }
 
-interface ILoginOnMutationArguments {
-input: IInputLoginUser;
-}
+  interface IUpdateRecipeOnMutationArguments {
+    id?: number | null
+    input?: IInputUpdateRecipe | null
+  }
 
-interface ICategory {
-__typename: "Category";
-id: number;
-name: string;
-}
+  interface ISignupOnMutationArguments {
+    input: IInputUserCreate
+  }
 
-interface IInputCreateCategory {
-name: string;
-}
+  interface ILoginOnMutationArguments {
+    input: IInputLoginUser
+  }
 
-interface IRecipe {
-__typename: "Recipe";
-id: string;
-name: string;
-description: string;
-ingredients: string;
-category: number;
-}
+  interface ICategory {
+    __typename: 'Category'
+    id: number
+    name: string
+  }
 
-interface IInputCreateRecipe {
-name: string;
-description: string;
-ingredients: string;
-category?: number | null;
-}
+  interface IInputCreateCategory {
+    name: string
+  }
+  interface IInputUpdateRecipe {
+    name: string | null
+    description: string | null
+    ingredients: [string] | null
+    category: Int | null
+  }
 
-interface IToken {
-__typename: "Token";
-token: string;
-}
+  interface IRecipe {
+    __typename: 'Recipe'
+    id: string
+    name: string
+    description: string
+    ingredients: string
+    category: number
+  }
 
-interface IInputLoginUser {
-email: string;
-password: string;
-}
+  interface IInputCreateRecipe {
+    name: string
+    description: string
+    ingredients: string[]
+    category: number
+    user: number
+  }
 
-interface IInputUserCreate {
-name: string;
-email: string;
-password: string;
-}
+  interface IToken {
+    __typename: 'Token'
+    token: string
+  }
 
-interface IUser {
-__typename: "User";
-id: string;
-name: string;
-email: string;
-}
+  interface IInputLoginUser {
+    email: string
+    password: string
+  }
+
+  interface IInputUserCreate {
+    name: string
+    email: string
+    password: string
+  }
+
+  interface IUser {
+    __typename: 'User'
+    id: string
+    name: string
+    email: string
+  }
 }
 
 // tslint:enable
