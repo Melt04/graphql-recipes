@@ -20,9 +20,11 @@ export const recipeResolver: IResolvers = {
     getMyRecipes: <any>combineResolvers(
       isAuthenticated,
       async (_: any, __: any, { email }: Context): Promise<Recipe[]> => {
-        const [user]: User[] = await User.find({ where: { email } })
-
-        return Recipe.find({ where: { userId: user.id } })
+        const user = await User.findOne({ where: { email } })
+        if (user) {
+          return Recipe.find({ where: { userId: user.id } })
+        }
+        return []
       }
     ),
     getOneRecipe: <any>combineResolvers(
@@ -30,8 +32,8 @@ export const recipeResolver: IResolvers = {
       async (
         _: any,
         { field, value }: MyGraphQL.IGetOneRecipeOnQueryArguments
-      ): Promise<Recipe[]> => {
-        const recipe: Recipe[] = await Recipe.find({
+      ): Promise<Recipe | undefined> => {
+        const recipe = await Recipe.findOne({
           where: { [field]: value },
         })
         return recipe
@@ -68,25 +70,11 @@ export const recipeResolver: IResolvers = {
           _: any,
           { id, input }: MyGraphQL.IUpdateRecipeOnMutationArguments
         ) => {
-          const { category, description, ingredients, name } = <
-            MyGraphQL.IInputUpdateRecipe
-          >input
-          let [updatedRecipe]: Recipe[] = await Recipe.find({ where: { id } })
+          const updatedRecipe = await Recipe.update({ id }, { ...input })
           if (updatedRecipe) {
-            updatedRecipe.category = category
-              ? category
-              : updatedRecipe.category
-            updatedRecipe.description = description
-              ? description
-              : updatedRecipe.description
-            updatedRecipe.ingredients = ingredients
-              ? ingredients
-              : updatedRecipe.ingredients
-            updatedRecipe.name = name ? name : updatedRecipe.name
-
-            await updatedRecipe.save()
             return true
           }
+
           return false
         }
       )
@@ -97,8 +85,8 @@ export const recipeResolver: IResolvers = {
         _: any,
         { id }: MyGraphQL.IDeleteRecipeOnMutationArguments
       ): Promise<Boolean> => {
-        const recipeToRemove = await Recipe.find({ where: { id } })
-        if (recipeToRemove.length > 0) {
+        const recipeToRemove = await Recipe.findOne({ where: { id } })
+        if (recipeToRemove) {
           await Recipe.remove(recipeToRemove)
           return true
         }
@@ -107,8 +95,10 @@ export const recipeResolver: IResolvers = {
     ),
   },
   Recipe: {
-    User: async ({ userId }: Recipe): Promise<User> => {
-      const [userRecipe]: User[] = await User.find({ where: { id: userId } })
+    User: async ({ userId }: Recipe): Promise<User | undefined> => {
+      const userRecipe = await User.findOne({
+        where: { id: userId },
+      })
 
       return userRecipe
     },

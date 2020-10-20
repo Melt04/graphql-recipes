@@ -19,9 +19,11 @@ export const categoryResolver: IResolvers = {
       async (
         _: any,
         { id }: MyGraphQL.IGetOneCategoryOnQueryArguments
-      ): Promise<Category | null> => {
+      ): Promise<Category | undefined> => {
         try {
-          const [category]: Category[] = await Category.find({ where: { id } })
+          const category = await Category.findOne({
+            where: { id },
+          })
           return category
         } catch (e) {
           console.log(e)
@@ -56,13 +58,13 @@ export const categoryResolver: IResolvers = {
         { id }: MyGraphQL.IDeleteCategoryOnMutationArguments
       ): Promise<boolean> => {
         try {
-          const [recipe]: Recipe[] = await Recipe.find({
+          const recipe = await Recipe.findOne({
             where: { category: id },
           })
           if (recipe) {
             throw new Error('Cant delete Id, some recipes have that ID')
           }
-          const [category]: Category[] = await Category.find({ where: { id } })
+          const category = await Category.findOne({ where: { id } })
           if (!category) {
             throw new Error('Invalid category ID')
           }
@@ -80,15 +82,10 @@ export const categoryResolver: IResolvers = {
         _: any,
         { id, input }: MyGraphQL.IUpdateCategoryOnMutationArguments
       ): Promise<boolean> => {
-        const [category]: Category[] = await Category.find({ where: { id } })
-        if (!category) {
-          throw new Error('Invalid category ID')
-        }
-        const { name } = <MyGraphQL.IInputCreateCategory>input
-        category.name = name
         try {
-          await category.save()
-          return true
+          const updatedCategory = await Category.update({ id }, { ...input })
+          if (updatedCategory) return true
+          return false
         } catch (e) {
           console.log(e)
           throw e

@@ -30,7 +30,7 @@ export const userResolver: IResolvers = {
   Mutation: {
     login: async (_: any, { input }: MyGraphQL.ILoginOnMutationArguments) => {
       const { password, email } = <MyGraphQL.IInputLoginUser>input
-      const [user] = await User.find({ where: { email } })
+      const user = await User.findOne({ where: { email } })
       if (!user) {
         throw new AuthenticationError('Invalid Credentials')
       }
@@ -51,11 +51,10 @@ export const userResolver: IResolvers = {
       { input }: MyGraphQL.ISignupOnMutationArguments
     ): Promise<boolean> => {
       const { email, password, name } = <MyGraphQL.IInputUserCreate>input
-      const [userExist]: User[] = await User.find({ where: { email } })
+      const userExist = await User.findOne({ where: { email } })
       if (userExist) {
         throw new Error('Email alredy in use')
       }
-
       const user = new User()
       user.email = email
       user.name = name

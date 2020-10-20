@@ -76,8 +76,8 @@ declare namespace MyGraphQL {
   }
 
   interface IUpdateRecipeOnMutationArguments {
-    id?: number | null
-    input?: IInputUpdateRecipe | null
+    id: number
+    input: IInputUpdateRecipe
   }
 
   interface ISignupOnMutationArguments {
@@ -98,10 +98,10 @@ declare namespace MyGraphQL {
     name: string
   }
   interface IInputUpdateRecipe {
-    name: string | null
-    description: string | null
-    ingredients: [string] | null
-    category: Int | null
+    name?: string
+    description?: string
+    ingredients?: [string]
+    category?: Int
   }
 
   interface IRecipe {

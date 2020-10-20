@@ -13,7 +13,7 @@ export const recipeTypeDef = gql`
 
   extend type Query {
     getRecipes: [Recipe!]
-    getOneRecipe(field: AllowedFields, value: String!): [Recipe]
+    getOneRecipe(field: AllowedFields, value: String!): Recipe
     getMyRecipes: [Recipe!]
   }
 
